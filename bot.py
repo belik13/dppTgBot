@@ -35,7 +35,7 @@ async def start(event):
     await event.reply('Привет, я сделаю отчет о соосности колонн по облаку точек в формате .pts\n'
                       'Команды:\n'
                       '/start - Выводит это сообщение\n'
-                      '/upload - Загружает один файл\n'
+                      '/upload - Загружает один файл, файл и команда должны быть одним сообщением\n'
                       '/report - Выводит отчет, при первом запуске может долго работать\n'
                       '/myfiles - Выводит список загруженых файлов\n'
                       '/delete - Удаляет файл\n'
@@ -45,6 +45,10 @@ async def start(event):
 async def upload(event):
     # await event.reply(event.text)
     filename = await get_file_name_from_message(event)
+    if filename is None:
+        await event.reply('Не обнаружен файл')
+        return None
+
     if not filename.endswith('.pts'):
         await event.reply('Неверный формат файла')
         return None
